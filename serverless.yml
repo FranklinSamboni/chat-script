@@ -1,0 +1,25 @@
+service: pragma-chat-script
+
+custom:
+  s3Bucket: pragma-chat-script-bucket
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: us-east-1
+  stage: dev
+  timeout: 120
+
+
+functions:
+  chat-script:
+    runtime: nodejs6.10
+    package:
+      include:
+        - chat-script
+    handler: app.handler
+    events:
+      - http:
+          path: chat-script/{proxy+}
+          method: any
+          cors: true
